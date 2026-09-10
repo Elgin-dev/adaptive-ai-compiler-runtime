@@ -1,7 +1,7 @@
 # adaptive-ai-compiler-runtime
 An adaptive AI compiler and runtime for computation graph optimization, operator fusion, quantization, and CPU-GPU execution scheduling.
 
-# Repo structure
+## Repo structure
 adaptive-ai-compiler-runtime/
 │
 ├── graph/
@@ -9,15 +9,14 @@ adaptive-ai-compiler-runtime/
 │
 └── README.md
 
-# current work
-
+## Current work
 AI Model
    ↓
 Computation Graph
    ↓
 Dependency Analysis
    ↓
-Topological Ordering       ← IAM  HERE
+Topological Ordering   ← I AM HERE
    ↓
 Optimization
    ↓
