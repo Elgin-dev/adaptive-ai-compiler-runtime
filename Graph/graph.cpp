@@ -14,6 +14,7 @@ void runScheduler(vector<Node>& data) {
     // Find nodes with indegree 0
     for (int i = 0; i < data.size(); i++) {
         if (data[i].inDegree == 0) {
+            data[i].state=NodeState::READY;
             ready.push(data[i].id);
         }
     }
@@ -68,7 +69,7 @@ void runScheduler(vector<Node>& data) {
                 data[neighbour].inDegree--;
 
                 if (data[neighbour].inDegree == 0) {
-
+                     data[i].state=NodeState::READY;
                     ready.push(neighbour);
 
                     cout << "Readied: "
