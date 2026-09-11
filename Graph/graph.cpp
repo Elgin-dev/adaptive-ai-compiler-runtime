@@ -2,45 +2,87 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <thread>
+
 using namespace std;
 
-
-
 void runScheduler(vector<Node>& data) {
+
     queue<int> ready;
     vector<string> executionState;
 
-    // find indegree 0
+    // Find nodes with indegree 0
     for (int i = 0; i < data.size(); i++) {
         if (data[i].inDegree == 0) {
             ready.push(data[i].id);
         }
     }
 
-    // Kahn’s algorithm
+    // Kahn's scheduling
     while (!ready.empty()) {
-        
-         if (ready.size() > 1) {
-        cout << "Parallel work available: "
-             << ready.size() << " nodes" << endl;
-    }
 
-        int currVal = ready.front();
-        ready.pop();
-        cout << "Node: " << data[currVal].name << endl;
-        executionState.push_back(data[currVal].name);
+        vector<int> currentBatch;
+        vector<thread> workers;
 
-        for (int neighbour : data[currVal].next) {
-            data[neighbour].inDegree--;
-            if (data[neighbour].inDegree == 0) {
-                ready.push(neighbour);
-                cout << "Readied: " << data[neighbour].name << endl;
+        // Take all currently ready nodes
+        while (!ready.empty()) {
+            int node = ready.front();
+            ready.pop();
+
+            currentBatch.push_back(node);
+        }
+
+        cout << "\nReady Batch: ";
+
+        for (int node : currentBatch) {
+            cout << data[node].name << " ";
+        }
+
+        cout << endl;
+
+        // Create threads dynamically
+        for (int node : currentBatch) {
+
+            cout << "Creating thread for: "
+                 << data[node].name << endl;
+
+            workers.push_back(
+                thread(executeNode, node, ref(data))
+            );
+
+            executionState.push_back(data[node].name);
+        }
+
+        // Wait for all threads to finish
+        for (auto& worker : workers) {
+            worker.join();
+        }
+
+        cout << "All threads completed.\n";
+
+        // Update dependencies AFTER execution
+        for (int node : currentBatch) {
+
+            for (int neighbour : data[node].next) {
+
+                data[neighbour].inDegree--;
+
+                if (data[neighbour].inDegree == 0) {
+
+                    ready.push(neighbour);
+
+                    cout << "Readied: "
+                         << data[neighbour].name
+                         << endl;
+                }
             }
         }
     }
 
-    // execution state verification
+    // Execution state
+    cout << "\nExecution State:\n";
+
     for (auto& x : executionState) {
-        cout << "executed : " << x << endl;
+        cout << "Executed: " << x << endl;
     }
 }

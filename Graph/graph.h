@@ -10,5 +10,7 @@ struct Node {
     std::vector<int> next;
     int inDegree;
 };
+void runScheduler(std::vector<Node>& data);
+void executeNode(int id, std::vector<Node>& data);
 
 #endif

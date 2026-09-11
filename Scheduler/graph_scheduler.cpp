@@ -6,8 +6,7 @@
 
 using namespace std;
 
-// declare runScheduler
-void runScheduler(vector<Node>& data);
+
 
 void executeNode(int id,vector<Node>& data){
     cout<<"Executing : "<<data[id].name<<endl;
@@ -25,10 +24,6 @@ int main() {
 
     runScheduler(data);
 
-    thread t1(executeNode,3,ref(data));
-    thread t2(executeNode,4,ref(data));
-
-    t1.join();
-    t2.join();
+    
     return 0;
 }
