@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 enum class NodeState {
     WAITING,
@@ -16,6 +17,7 @@ struct Node {
     std::vector<int> next;
     int inDegree;
     NodeState state;
+    long long executionTime;
 };
 void runScheduler(std::vector<Node>& data);
 void executeNode(int id, std::vector<Node>& data);

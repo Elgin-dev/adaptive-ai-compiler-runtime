@@ -4,12 +4,14 @@
 #include <queue>
 #include <thread>
 
+
 using namespace std;
 
 void runScheduler(vector<Node>& data) {
 
     queue<int> ready;
     vector<string> executionState;
+
 
     // Find nodes with indegree 0
     for (int i = 0; i < data.size(); i++) {
@@ -69,7 +71,7 @@ void runScheduler(vector<Node>& data) {
                 data[neighbour].inDegree--;
 
                 if (data[neighbour].inDegree == 0) {
-                     data[i].state=NodeState::READY;
+                     data[neighbour].state=NodeState::READY;
                     ready.push(neighbour);
 
                     cout << "Readied: "
