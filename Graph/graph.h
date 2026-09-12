@@ -19,6 +19,12 @@ struct Node {
     NodeState state;
     long long executionTime;
 };
+
+struct Tensor {
+    vector<float> data;
+    vector<int> shape;
+};
+
 void runScheduler(std::vector<Node>& data);
 void executeNode(int id, std::vector<Node>& data);
 

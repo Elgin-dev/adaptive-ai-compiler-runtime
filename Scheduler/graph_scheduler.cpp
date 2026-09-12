@@ -34,9 +34,24 @@ void executeNode(int id, vector<Node>& data) {
          << endl;
 }
 
+void relu(Tensor& input)
+{
+    for (int i = 0; i < input.data.size(); i++) {
+        if (input.data[i] < 0) {
+            input.data[i] = 0;
+        }
+    }
+
+    cout<<"values"<<endl;
+    for(auto &x: input.data){
+    cout<<x<< " "; 
+}
+}
+
 int main() {
     vector<Node> data;
-    
+    Tensor values;
+    values.data = {-2.0, 4.0, -1.0, 7.0};
     data.push_back({0, "input", {1}, 0, NodeState::WAITING, 0});
     data.push_back({1, "MatMul", {3, 4}, 1, NodeState::WAITING, 0});
     data.push_back({2, "Add", {5}, 2, NodeState::WAITING, 0});
@@ -45,6 +60,7 @@ int main() {
     data.push_back({5, "Output", {}, 1, NodeState::WAITING, 0}); 
 
     runScheduler(data);
+    relu(values);
 
     
     return 0;
