@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 enum class NodeState {
     WAITING,
@@ -11,6 +10,17 @@ enum class NodeState {
     RUNNING,
     COMPLETED
 };
+
+enum class Backend {
+    CPU,
+    CUDA
+};
+
+struct Tensor {
+    std::vector<float> data;
+    std::vector<int> shape;
+};
+
 struct Node {
     int id;
     std::string name;
@@ -18,14 +28,51 @@ struct Node {
     int inDegree;
     NodeState state;
     long long executionTime;
+    Backend backend;
 };
 
-struct Tensor {
-    vector<float> data;
-    vector<int> shape;
-};
+void runScheduler(std::vector<Node>& data, Tensor& tensor);
 
-void runScheduler(std::vector<Node>& data);
-void executeNode(int id, std::vector<Node>& data);
+void executeNode(
+    int id,
+    std::vector<Node>& data,
+    Tensor& tensor
+);
+
+// CPU operations
+void cpuMatMul(
+    const Tensor& input,
+    Tensor& output,
+    const Tensor& weights
+);
+
+void cpuReLU(Tensor& tensor);
+
+void cpuSigmoid(Tensor& tensor);
+
+// CUDA operations
+void cudaMatMul(
+    const Tensor& input,
+    Tensor& output,
+    const Tensor& weights
+);
+
+void cudaReLU(Tensor& tensor);
+
+void cudaSigmoid(Tensor& tensor);
+
+// Neural network
+void runNeuralNetworkCPU(
+    const Tensor& input,
+    Tensor& output
+);
+
+void runNeuralNetworkCUDA(
+    const Tensor& input,
+    Tensor& output
+);
+
+// Benchmark
+void benchmarkNeuralNetwork();
 
 #endif
